@@ -17,16 +17,15 @@ function subtract(a, b) {
 
 subtract(5, 3);
 
-const sum = function(array) {
-  return array.reduce((total, current) => total + current, 0);
+function multiply(a, b) {
+    console.log("input a:", a);
+    console.log("input b:", b);
+    let sum = a * b;
+    console.log("Multiplied sum", sum)
 };
 
-const multiply = function(array) {
-  if (array.length === 0) {
-    return 0;
-  }
-  const product = array.reduce((accumulator, currentValue) => {
-    return accumulator * currentValue;
-  })
-  return product;
+multiply(5, 3);
+
+const sum = function(array) {
+  return array.reduce((total, current) => total + current, 0);
 };
