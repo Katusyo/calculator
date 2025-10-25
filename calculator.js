@@ -35,11 +35,14 @@ console.log(multiply(5, 2, 2, 3));
 
 //multiply(5, 3);
 
-function divide(a, b) {
-    console.log("input a:", parseFloat(a));
-    console.log("input b:", parseFloat(b));
-    let sum = a / b;
-    console.log("Divided sum", sum)
+function divide(...numbers) {
+    return numbers.reduce((total, currentNumber) => total / currentNumber);
+//    console.log("input a:", parseFloat(a));
+//    console.log("input b:", parseFloat(b));
+//    let sum = a / b;
+//    console.log("Divided sum", sum)
 };
 
-divide(5, 3);
+console.log(divide(50, 2, 2));
+
+//divide(5, 3);
