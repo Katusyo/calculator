@@ -1,21 +1,27 @@
-function add(a, b) {
-	console.log("input a:", parseFloat(a));
-    console.log("input b:", parseFloat(b));
-    let sum = parseFloat(a) + parseFloat(b);
-    console.log("Added sum:", sum);
-    return sum;
+function add(...numbers) {
+    return numbers.reduce((total, currentNumber) => total + currentNumber, 0);
+//    console.log("input a:", parseFloat(a));
+//    console.log("input b:", parseFloat(b));
+//    let sum = parseFloat(a) + parseFloat(b);
+//    console.log("Added sum:", sum);
+//    return sum;
 };
 
-add(5, 3);
+console.log(add(1, 2, 3, 4, 5));
 
-function subtract(a, b) {
-    console.log("input a:", parseFloat(a));
-    console.log("input b:", parseFloat(b));
-	let sum = parseFloat(a) - parseFloat(b);
-    console.log("Subtracted sum", sum)
+//add(5, 3);
+
+function subtract(...numbers) {
+    return numbers.reduce((total, currentNumber) => total - currentNumber);
+//    console.log("input a:", parseFloat(a));
+//    console.log("input b:", parseFloat(b));
+//	let sum = parseFloat(a) - parseFloat(b);
+//    console.log("Subtracted sum", sum)
 };
 
-subtract(5, 3);
+console.log(subtract(10, 3, 2, 1));
+
+//subtract(5, 3);
 
 function multiply(a, b) {
     console.log("input a:", parseFloat(a));
@@ -34,7 +40,3 @@ function divide(a, b) {
 };
 
 divide(5, 3);
-
-const sum = function(array) {
-  return array.reduce((total, current) => total + current, 0);
-};
