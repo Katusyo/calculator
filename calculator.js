@@ -23,14 +23,14 @@ console.log(subtract(10, 3, 2, 1));
 
 //subtract(5, 3);
 
-function multiply(a, b) {
-    console.log("input a:", parseFloat(a));
-    console.log("input b:", b);
-    let sum = a * b;
-    console.log("Multiplied sum", sum)
+function multiply(...numbers) {
+//    console.log("input a:", parseFloat(a));
+//    console.log("input b:", b);
+//    let sum = a * b;
+//    console.log("Multiplied sum", sum)
 };
 
-multiply(5, 3);
+//multiply(5, 3);
 
 function divide(a, b) {
     console.log("input a:", parseFloat(a));
