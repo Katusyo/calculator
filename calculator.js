@@ -1,48 +1,70 @@
+let currentInput = '';
+let previousInput = '';
+let operator = '';
+
+const displayElement = document.getElementById('display');
+
+function appendNumber(number) {
+    currentInput += number;
+    displayElement.value = currentInput;
+}
+
+function setOperator(op) {
+    if (currentInput === '') return;
+    if (previousInput !== '') {
+        performCalculation();
+    }
+    operator = op;
+    previousInput = currentInput;
+    currentInput = '';
+}
+
+function performCalculation() {
+    if (previousInput === '' || currentInput === '') return;
+
+    const prev = parseFloat(previousInput);
+    const current = parseFloat(currentInput);
+    let result;
+
+    switch (operator) {
+        case '+':
+            result = prev + current;
+            break;
+        case '-':
+            result = prev - current;
+            break;
+    }
+
+    currentInput = result.toString();
+    operator = '';
+    previousInput = '';
+    displayElement.value = currentInput;
+}
+
 function add(...numbers) {
     return numbers.reduce((total, currentNumber) => total + currentNumber, 0);
-//    console.log("input a:", parseFloat(a));
-//    console.log("input b:", parseFloat(b));
-//    let sum = parseFloat(a) + parseFloat(b);
-//    console.log("Added sum:", sum);
-//    return sum;
 };
 
 console.log(add(1, 2, 3, 4, 5));
 
-//add(5, 3);
-
 function subtract(...numbers) {
     return numbers.reduce((total, currentNumber) => total - currentNumber);
-//    console.log("input a:", parseFloat(a));
-//    console.log("input b:", parseFloat(b));
-//	let sum = parseFloat(a) - parseFloat(b);
-//    console.log("Subtracted sum", sum)
 };
 
 console.log(subtract(10, 3, 2, 1));
 
-//subtract(5, 3);
-
 function multiply(...numbers) {
     return numbers.reduce((total, currentNumber) => total * currentNumber);
-//    console.log("input a:", parseFloat(a));
-//    console.log("input b:", b);
-//    let sum = a * b;
-//    console.log("Multiplied sum", sum)
 };
 
 console.log(multiply(5, 2, 2, 3));
 
-//multiply(5, 3);
-
 function divide(...numbers) {
     return numbers.reduce((total, currentNumber) => total / currentNumber);
-//    console.log("input a:", parseFloat(a));
-//    console.log("input b:", parseFloat(b));
-//    let sum = a / b;
-//    console.log("Divided sum", sum)
 };
 
-console.log(divide(50, 2, 2));
+console.log(divide(50, 2, 2, 3));
 
-//divide(5, 3);
+function operate() {
+    
+}
