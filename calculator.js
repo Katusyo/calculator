@@ -33,6 +33,12 @@ function performCalculation() {
         case '-':
             result = prev - current;
             break;
+        case '*':
+            result = prev * current;
+            break;
+        case '/':
+            result = prev / current;
+            break;
     }
 
     currentInput = result.toString();
@@ -40,6 +46,13 @@ function performCalculation() {
     previousInput = '';
     displayElement.value = currentInput;
 }
+
+const operations = {
+    '+': add,
+    '-': subtract,
+    '*': multiply,
+    '/': divide,
+};
 
 function add(...numbers) {
     return numbers.reduce((total, currentNumber) => total + currentNumber, 0);
@@ -65,6 +78,16 @@ function divide(...numbers) {
 
 console.log(divide(50, 2, 2, 3));
 
-function operate() {
-    
+function operate(operator, num1, num2, ...numbers) {
+    const operationFunction = operations[operator];
+
+    if (operationFunction) {
+        return operationFunction(num1, num2, ...numbers);
+    } else {
+        return "Error: Invalid operator.";
+    }
 }
+
+console.log(operate('+', 5, 3, 5, 7));
+console.log(operate('*', 5, 3));
+console.log(operate('%', 5, 3));
