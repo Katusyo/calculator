@@ -36,15 +36,15 @@ function updateDisplay(value) {
     display.value = value;
 }
 
-function setOperator(op) {
-    if (currentInput === '') return;
-    if (previousInput !== '') {
-        performCalculation();
-    }
-    operator = op;
-    previousInput = currentInput;
-    currentInput = '';
-}
+//function setOperator(op) {
+//    if (currentInput === '') return;
+//    if (previousInput !== '') {
+//        performCalculation();
+//    }
+//    operator = op;
+//    previousInput = currentInput;
+//    currentInput = '';
+//}
 
 function performCalculation() {
     if (previousInput === '' || currentInput === '') return;
@@ -68,19 +68,34 @@ function performCalculation() {
             result = prev / current;
             break;
     }
-
-    currentInput = result.toString();
-    operator = '';
-    previousInput = '';
-    displayElement.value = currentInput;
 }
 
-const operations = {
-    '+': add,
-    '-': subtract,
-    '*': multiply,
-    '/': divide,
-};
+//    currentInput = result.toString();
+//    operator = '';
+//    previousInput = '';
+//    displayElement.value = currentInput;
+//}
+
+//const operations = {
+//    '+': add,
+//    '-': subtract,
+//    '*': multiply,
+//    '/': divide,
+//};
+
+operatorButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        if (previousInput !== '' && operator !== null) {
+            currentInput = operate(operator, parseFloat(previousInput), parseFloat(currentInput));
+            updateDisplay(currentInput);
+            previousInput = currentInput;
+        } else {
+            previousInput = currentInput;
+        }
+        operator = button.dataset.operator;
+        shouldResetDisplay = true;
+    });
+});
 
 function add(...numbers) {
     return numbers.reduce((total, currentNumber) => total + currentNumber, 0);
@@ -106,19 +121,19 @@ function divide(...numbers) {
 
 console.log(divide(50, 2, 2, 3));
 
-function operate(operator, num1, num2, ...numbers) {
-    const operationFunction = operations[operator];
+//function operate(operator, num1, num2, ...numbers) {
+//    const operationFunction = operations[operator];
+//
+//    if (operationFunction) {
+//        return operationFunction(num1, num2, ...numbers);
+//    } else {
+//        return "Error: Invalid operator.";
+//    }
+//}
 
-    if (operationFunction) {
-        return operationFunction(num1, num2, ...numbers);
-    } else {
-        return "Error: Invalid operator.";
-    }
-}
-
-console.log(operate('+', 5, 3, 5, 7));
-console.log(operate('*', 5, 3));
-console.log(operate('%', 5, 3));
+//console.log(operate('+', 5, 3, 5, 7));
+//console.log(operate('*', 5, 3));
+//console.log(operate('%', 5, 3));
 
 
 
