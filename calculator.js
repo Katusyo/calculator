@@ -2,11 +2,19 @@ let currentInput = '';
 let previousInput = '';
 let operator = '';
 
-const displayElement = document.getElementById('display');
+const display = document.getElementById('display');
 
 function appendNumber(number) {
-    currentInput += number;
-    displayElement.value = currentInput;
+    if (currentInput === '0' || currentInput === '') {
+        currentInput = number;
+    } else {
+        currentInput += number;
+    }
+    updateDisplay(currentInput);
+}
+
+function updateDisplay(value) {
+    display.value = value;
 }
 
 function setOperator(op) {
@@ -24,7 +32,8 @@ function performCalculation() {
 
     const prev = parseFloat(previousInput);
     const current = parseFloat(currentInput);
-    let result;
+    let result = operate(operator, num1, num2, ...numbers);
+    updateDisplay(result);
 
     switch (operator) {
         case '+':
@@ -92,8 +101,5 @@ console.log(operate('+', 5, 3, 5, 7));
 console.log(operate('*', 5, 3));
 console.log(operate('%', 5, 3));
 
-const display = document.getElementById('display');
 
-function updateDisplay(value) {
-    display.value = value;
-}
+
