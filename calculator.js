@@ -97,6 +97,16 @@ operatorButtons.forEach(button => {
     });
 });
 
+equalsButton.addEventListener('click', () => {
+    if (previousInput === '' || operator === null) return;
+    const result = operate(operator, parseFloat(previousInput), parseFloat(currentInput));
+    updateDisplay(result);
+    currentInput = result.toString();
+    previousInput = '';
+    operator = null;
+    shouldResetDisplay = true;
+});
+
 function add(...numbers) {
     return numbers.reduce((total, currentNumber) => total + currentNumber, 0);
 };
