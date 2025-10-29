@@ -91,3 +91,9 @@ function operate(operator, num1, num2, ...numbers) {
 console.log(operate('+', 5, 3, 5, 7));
 console.log(operate('*', 5, 3));
 console.log(operate('%', 5, 3));
+
+const display = document.getElementById('display');
+
+function updateDisplay(value) {
+    display.value = value;
+}
