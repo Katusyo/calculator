@@ -1,6 +1,7 @@
 let currentInput = '';
 let previousInput = '';
 let operator = '';
+let shouldResetDisplay = false;
 
 const display = document.getElementById('display');
 const numberButtons = document.querySelectorAll('.buttons .number');
@@ -9,14 +10,27 @@ const clearButton = document.getElementById('clear');
 const deleteButton = document.getElementById('delete');
 const equalsButton = document.getElementById('equals');
 
-function appendNumber(number) {
-    if (currentInput === '0' || currentInput === '') {
-        currentInput = number;
-    } else {
-        currentInput += number;
-    }
-    updateDisplay(currentInput);
-}
+numberButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const number = button.dataset.number;
+        if (shouldResetDisplay) {
+            currentInput = number;
+            shouldResetDisplay = false;
+        } else {
+            currentInput = currentInput === '0' ? number : currentInput + number;
+        }
+        updateDisplay(currentInput);
+    });
+});
+
+//function appendNumber(number) {
+//    if (currentInput === '0' || currentInput === '') {
+//        currentInput = number;
+//    } else {
+//        currentInput += number;
+//    }
+//    updateDisplay(currentInput);
+//}
 
 function updateDisplay(value) {
     display.value = value;
