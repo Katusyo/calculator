@@ -3,6 +3,11 @@ let previousInput = '';
 let operator = '';
 
 const display = document.getElementById('display');
+const numberButtons = document.querySelectorAll('.buttons .number');
+const operatorButtons = document.querySelectorAll('.buttons .operator');
+const clearButton = document.getElementById('clear');
+const deleteButton = document.getElementById('delete');
+const equalsButton = document.getElementById('equals');
 
 function appendNumber(number) {
     if (currentInput === '0' || currentInput === '') {
