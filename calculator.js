@@ -2,6 +2,7 @@ let currentInput = '';
 let previousInput = '';
 let operator = '';
 let shouldResetDisplay = false;
+let lastResult = null;
 
 const display = document.getElementById('display');
 const numberButtons = document.querySelectorAll('.buttons .number');
@@ -9,19 +10,6 @@ const operatorButtons = document.querySelectorAll('.buttons .operator');
 const clearButton = document.getElementById('clear');
 const deleteButton = document.getElementById('delete');
 const equalsButton = document.getElementById('equals');
-
-numberButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        const number = button.dataset.number;
-        if (shouldResetDisplay) {
-            currentInput = number;
-            shouldResetDisplay = false;
-        } else {
-            currentInput = currentInput === '0' ? number : currentInput + number;
-        }
-        updateDisplay(currentInput);
-    });
-});
 
 //function appendNumber(number) {
 //    if (currentInput === '0' || currentInput === '') {
@@ -46,29 +34,29 @@ function updateDisplay(value) {
 //    currentInput = '';
 //}
 
-function performCalculation() {
-    if (previousInput === '' || currentInput === '') return;
+//function performCalculation() {
+//    if (previousInput === '' || currentInput === '') return;
+//
+//    const prev = parseFloat(previousInput);
+//    const current = parseFloat(currentInput);
+//    let result = operate(operator, num1, num2, ...numbers);
+//    updateDisplay(result);
 
-    const prev = parseFloat(previousInput);
-    const current = parseFloat(currentInput);
-    let result = operate(operator, num1, num2, ...numbers);
-    updateDisplay(result);
-
-    switch (operator) {
-        case '+':
-            result = prev + current;
-            break;
-        case '-':
-            result = prev - current;
-            break;
-        case '*':
-            result = prev * current;
-            break;
-        case '/':
-            result = prev / current;
-            break;
-    }
-}
+//    switch (operator) {
+//        case '+':
+//            result = prev + current;
+//            break;
+//        case '-':
+//            result = prev - current;
+//            break;
+//        case '*':
+//            result = prev * current;
+//            break;
+//        case '/':
+//            result = prev / current;
+//            break;
+//    }
+//}
 
 //    currentInput = result.toString();
 //    operator = '';
@@ -84,52 +72,68 @@ function performCalculation() {
 //};
 
 numberButtons.forEach(button => {
-    if (previousInput === '' || currentInput === '') return;
+    button.addEventListener('click', () => {
+        const number = button.dataset.number;
+        if (shouldResetDisplay) {
+            currentInput = number;
+            shouldResetDisplay = false;
+        } else {
+            currentInput = currentInput === '0' ? number : currentInput + number;
+        }
+        updateDisplay(currentInput);
 
-    const prev = parseFloat(previousInput);
-    const current = parseFloat(currentInput);
-    let result = operate(operator, num1, num2, ...numbers);
-    updateDisplay(result);
-
-    switch (operator) {
-        case '+':
-            result = prev + current;
-            break;
-        case '-':
-            result = prev - current;
-            break;
-        case '*':
-            result = prev * current;
-            break;
-        case '/':
-            result = prev / current;
-            break;
-    };
+        if (lastResult !== null) {
+            lastResult = null;
+        }
+    });
 });
 
 operatorButtons.forEach(button => {
     button.addEventListener('click', () => {
-        if (previousInput !== '' && operator !== null) {
-            currentInput = operate(operator, parseFloat(previousInput), parseFloat(currentInput));
-            updateDisplay(currentInput);
-            previousInput = currentInput;
+        const nextOperator = button.dataset.operator;
+        if (operator && previousInput !== '') {
+            const result = operate(operator, parseFloat(previousInput), parseFloat(currentInput));
+            lastResult = result;
+            updateDisplay(result);
+            previousInput =result;
         } else {
             previousInput = currentInput;
         }
-        operator = button.dataset.operator;
+        operator = nextOperator;
         shouldResetDisplay = true;
     });
 });
+//        if (previousInput !== '' && operator !== null) {
+//            currentInput = operate(operator, parseFloat(previousInput), parseFloat(currentInput));
+//            updateDisplay(currentInput);
+//            previousInput = currentInput;
+//        } else {
+//            previousInput = currentInput;
+//        }
+//        operator = button.dataset.operator;
+//        shouldResetDisplay = true;
+//    });
+//});
 
 equalsButton.addEventListener('click', () => {
-    if (previousInput === '' || operator === null) return;
-    const result = operate(operator, parseFloat(previousInput), parseFloat(currentInput));
-    updateDisplay(result);
-    currentInput = result.toString();
-    previousInput = '';
-    operator = null;
-    shouldResetDisplay = true;
+    if (operator && previousInput !== '') {
+        const result = operate(operator, parseFloat(previousInput), parseFloat(currentInput));
+        updateDisplay(result);
+        currentInput = result.toString();
+        previousInput = '';
+        operator = null;
+        shouldResetDisplay = true;
+        lastResult = null;
+    }
 });
+//    if (previousInput === '' || operator === null) return;
+//    const result = operate(operator, parseFloat(previousInput), parseFloat(currentInput));
+//    updateDisplay(result);
+//    currentInput = result.toString();
+//    previousInput = '';
+//    operator = null;
+//    shouldResetDisplay = true;
+//});
 
 clearButton.addEventListener('click', () => {
     currentInput = '0';
