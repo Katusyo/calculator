@@ -83,6 +83,30 @@ function performCalculation() {
 //    '/': divide,
 //};
 
+numberButtons.forEach(button => {
+    if (previousInput === '' || currentInput === '') return;
+
+    const prev = parseFloat(previousInput);
+    const current = parseFloat(currentInput);
+    let result = operate(operator, num1, num2, ...numbers);
+    updateDisplay(result);
+
+    switch (operator) {
+        case '+':
+            result = prev + current;
+            break;
+        case '-':
+            result = prev - current;
+            break;
+        case '*':
+            result = prev * current;
+            break;
+        case '/':
+            result = prev / current;
+            break;
+    };
+});
+
 operatorButtons.forEach(button => {
     button.addEventListener('click', () => {
         if (previousInput !== '' && operator !== null) {
@@ -105,6 +129,23 @@ equalsButton.addEventListener('click', () => {
     previousInput = '';
     operator = null;
     shouldResetDisplay = true;
+});
+
+clearButton.addEventListener('click', () => {
+    currentInput = '0';
+    previousInput = '';
+    operator = null
+    shouldResetDisplay = false;
+    updateDisplay(currentInput);
+});
+
+deleteButton.addEventListener('click', () => {
+    if (currentInput.length === 1) {
+        currentInput = '0';
+    } else {
+        currentInput = currentInput.slice(0, -1);
+    }
+    updateDisplay(currentInput);
 });
 
 function add(...numbers) {
