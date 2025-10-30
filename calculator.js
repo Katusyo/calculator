@@ -24,39 +24,39 @@ function updateDisplay(value) {
     display.value = value;
 }
 
-//function setOperator(op) {
-//    if (currentInput === '') return;
-//    if (previousInput !== '') {
-//        performCalculation();
-//    }
-//    operator = op;
-//    previousInput = currentInput;
-//    currentInput = '';
-//}
+function operate(op) {
+    if (currentInput === '') return;
+    if (previousInput !== '') {
+        performCalculation();
+    }
+    operator = op;
+    previousInput = currentInput;
+    currentInput = '';
+}
 
-//function performCalculation() {
-//    if (previousInput === '' || currentInput === '') return;
-//
-//    const prev = parseFloat(previousInput);
-//    const current = parseFloat(currentInput);
-//    let result = operate(operator, num1, num2, ...numbers);
-//    updateDisplay(result);
+function performCalculation() {
+    if (previousInput === '' || currentInput === '') return;
 
-//    switch (operator) {
-//        case '+':
-//            result = prev + current;
-//            break;
-//        case '-':
-//            result = prev - current;
-//            break;
-//        case '*':
-//            result = prev * current;
-//            break;
-//        case '/':
-//            result = prev / current;
-//            break;
-//    }
-//}
+    const prev = parseFloat(previousInput);
+    const current = parseFloat(currentInput);
+    let result = operate(operator, parseFloat(previousInput), parseFloat(currentInput));
+    updateDisplay(result);
+
+    switch (operator) {
+        case '+':
+            result = prev + current;
+            break;
+        case '-':
+            result = prev - current;
+            break;
+        case '*':
+            result = prev * current;
+            break;
+        case '/':
+            result = prev / current;
+            break;
+    }
+}
 
 //    currentInput = result.toString();
 //    operator = '';
@@ -64,12 +64,12 @@ function updateDisplay(value) {
 //    displayElement.value = currentInput;
 //}
 
-//const operations = {
-//    '+': add,
-//    '-': subtract,
-//    '*': multiply,
-//    '/': divide,
-//};
+const operations = {
+    '+': add,
+    '-': subtract,
+    '*': multiply,
+    '/': divide,
+};
 
 numberButtons.forEach(button => {
     button.addEventListener('click', () => {
@@ -92,7 +92,7 @@ operatorButtons.forEach(button => {
     button.addEventListener('click', () => {
         const nextOperator = button.dataset.operator;
         if (operator && previousInput !== '') {
-            const result = operate(operator, parseFloat(previousInput), parseFloat(currentInput));
+            const result = operate(operator, num1, num2, ...numbers);
             lastResult = result;
             updateDisplay(result);
             previousInput =result;
@@ -176,15 +176,15 @@ function divide(...numbers) {
 
 console.log(divide(50, 2, 2, 3));
 
-//function operate(operator, num1, num2, ...numbers) {
-//    const operationFunction = operations[operator];
-//
-//    if (operationFunction) {
-//        return operationFunction(num1, num2, ...numbers);
-//    } else {
-//        return "Error: Invalid operator.";
-//    }
-//}
+function operate(operator, num1, num2, ...numbers) {
+    const operationFunction = operations[operator];
+
+    if (operationFunction) {
+        return operationFunction(num1, num2, ...numbers);
+    } else {
+        return "Error: Invalid operator.";
+    }
+}
 
 //console.log(operate('+', 5, 3, 5, 7));
 //console.log(operate('*', 5, 3));
