@@ -13,7 +13,7 @@ body {
     padding: 15px;
 }
 
-.display {
+.mainDisplay {
     width: 100%;
     height: 50px;
     font-size: 2em;
@@ -25,12 +25,58 @@ body {
     border-radius: 5px;
     margin-bottom: 10px;
     box-sizing: border-box;
-
 }
 
-button {
+.equation-display {
+    width: 100%;
+    height: 50px;
+    font-size: 2em;
+    text-align: right;
+    padding: 5px;
+    border: none;
+    background-color: #333;
+    color: #fff;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+
+
+.buttons-top {
     cursor: pointer;
-    padding: 8px 16px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttons1 {
+    cursor: pointer;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttons2 {
+    cursor: pointer;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttons3 {
+    cursor: pointer;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttons-bottom {
+    cursor: pointer;
     border-radius: 8px;
     display: flex;
     justify-content: center;

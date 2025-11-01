@@ -1,38 +1,40 @@
-let currentInput = '';
+let currentInput = '0';
 let previousInput = '';
-let operator = '';
+let operator = null;
 let shouldResetDisplay = false;
 let lastResult = null;
 
-const display = document.getElementById('display');
-const numberButtons = document.querySelectorAll('.buttons .number');
-const operatorButtons = document.querySelectorAll('.buttons .operator');
+const display = document.getElementById('main-display');
+const equationDisply = document.getElementById('equation-display');
+const numberButtons = document.querySelectorAll('.number');
+const operatorButtons = document.querySelectorAll('.operator');
 const clearButton = document.getElementById('clear');
 const deleteButton = document.getElementById('delete');
 const equalsButton = document.getElementById('equals');
 
-//function appendNumber(number) {
-//    if (currentInput === '0' || currentInput === '') {
-//        currentInput = number;
-//    } else {
-//        currentInput += number;
-//    }
-//    updateDisplay(currentInput);
-//}
 
-function updateDisplay(value) {
-    display.value = value;
-}
-
-function operate(op) {
-    if (currentInput === '') return;
-    if (previousInput !== '') {
-        performCalculation();
+function updateDisplays() {
+    mainDisplay.value = currentInput;
+    let equationString = '';
+    if (lastResult !== null) {
+        equationString = `${lastResult} ${operator}`;
+    } else if (previousInput !== '' && operator) {
+        equationString = `${previousInput} ${operator}`;
+    } else if (previousInput !== '') {
+        equationString = previousInput;
     }
-    operator = op;
-    previousInput = currentInput;
-    currentInput = '';
+    equationDisply.textContent = equationString;
 }
+
+//function operate(op) {
+//    if (currentInput === '') return;
+//    if (previousInput !== '') {
+//        performCalculation();
+//    }
+//    operator = op;
+//    previousInput = currentInput;
+//    currentInput = '';
+//}
 
 function performCalculation() {
     if (previousInput === '' || currentInput === '') return;
@@ -58,12 +60,6 @@ function performCalculation() {
     }
 }
 
-//    currentInput = result.toString();
-//    operator = '';
-//    previousInput = '';
-//    displayElement.value = currentInput;
-//}
-
 const operations = {
     '+': add,
     '-': subtract,
@@ -78,31 +74,43 @@ numberButtons.forEach(button => {
             currentInput = number;
             shouldResetDisplay = false;
         } else {
-            currentInput = currentInput === '0' ? number : currentInput + number;
+            if (currentInput === '0' && number !== '.') {
+                currentInput = number;
+            } else {
+                currentInput += number;
+            }
         }
-        updateDisplay(currentInput);
-
-        if (lastResult !== null) {
-            lastResult = null;
-        }
+        updateDisplays(currentInput);
     });
 });
 
 operatorButtons.forEach(button => {
     button.addEventListener('click', () => {
-        const nextOperator = button.dataset.operator;
-        if (operator && previousInput !== '') {
-            const result = operate(operator, num1, num2, ...numbers);
-            lastResult = result;
-            updateDisplay(result);
-            previousInput =result;
-        } else {
-            previousInput = currentInput;
+        if (currentInput === '') return;
+        if (previousInput !== '') {
+            currentInput = operate(operator, parseFloat(previousInput), parseFloat(currentInput)).toString();
+            updateDisplays(currentInput);
         }
-        operator = nextOperator;
+
+        operator = button.dataset.operator;
+        previousInput = currentInput;
         shouldResetDisplay = true;
     });
 });
+//        const nextOperator = button.dataset.operator;
+//        if (operator && previousInput !== '') {
+//            const result = operate(operator, num1, num2, ...numbers);
+//            lastResult = result;
+//            updateDisplays(result);
+//            previousInput =result;
+//        } else {
+//            previousInput = currentInput;
+//        }
+//        operator = nextOperator;
+//        shouldResetDisplay = true;
+//    });
+//});
+
 //        if (previousInput !== '' && operator !== null) {
 //            currentInput = operate(operator, parseFloat(previousInput), parseFloat(currentInput));
 //            updateDisplay(currentInput);
@@ -116,19 +124,31 @@ operatorButtons.forEach(button => {
 //});
 
 equalsButton.addEventListener('click', () => {
-    if (operator && previousInput !== '') {
-        const result = operate(operator, parseFloat(previousInput), parseFloat(currentInput));
-        updateDisplay(result);
-        currentInput = result.toString();
-        previousInput = '';
-        operator = null;
-        shouldResetDisplay = true;
-        lastResult = null;
+    if (previousInput === '' || operator === null || shouldResetDisplay) {
+        return;
     }
+    const result = operate(operator, parseFloat(previousInput), parseFloat(currentInput));
+    updateDisplays(result);
+    currentInput = result.toString();
+    previousInput = '';
+    operator = null;
+    shouldResetDisplay = true;
 });
+
+//    if (operator && previousInput !== '') {
+//        const result = operate(operator, parseFloat(previousInput), parseFloat(currentInput));
+//        updateDisplays(result);
+//        currentInput = result.toString();
+//        previousInput = '';
+//        operator = null;
+//        shouldResetDisplay = true;
+//        lastResult = null;
+//    }
+//});
+
 //    if (previousInput === '' || operator === null) return;
 //    const result = operate(operator, parseFloat(previousInput), parseFloat(currentInput));
-//    updateDisplay(result);
+//    updateDisplays(result);
 //    currentInput = result.toString();
 //    previousInput = '';
 //    operator = null;
@@ -140,7 +160,7 @@ clearButton.addEventListener('click', () => {
     previousInput = '';
     operator = null
     shouldResetDisplay = false;
-    updateDisplay(currentInput);
+    updateDisplays(currentInput);
 });
 
 deleteButton.addEventListener('click', () => {
@@ -149,7 +169,7 @@ deleteButton.addEventListener('click', () => {
     } else {
         currentInput = currentInput.slice(0, -1);
     }
-    updateDisplay(currentInput);
+    updateDisplays(currentInput);
 });
 
 function add(...numbers) {
@@ -176,19 +196,29 @@ function divide(...numbers) {
 
 console.log(divide(50, 2, 2, 3));
 
-function operate(operator, num1, num2, ...numbers) {
-    const operationFunction = operations[operator];
-
-    if (operationFunction) {
-        return operationFunction(num1, num2, ...numbers);
-    } else {
-        return "Error: Invalid operator.";
+function operate(operator, previousInput, currentInput) {
+    switch (operator) {
+        case '+': return previousInput + currentInput;
+        case '-': return previousInput - currentInput;
+        case '*': return previousInput * currentInput;
+        case '/':
+            if (currentInput === 0) return "Error";
+            return previousInput / currentInput;
+        default: return currentInput;
     }
 }
+//    const operationFunction = operations[operator];
+//
+//    if (operationFunction) {
+//        return operationFunction(num1, num2, ...numbers);
+//    } else {
+//        return "Error: Invalid operator.";
+//    }
+//}
 
-//console.log(operate('+', 5, 3, 5, 7));
-//console.log(operate('*', 5, 3));
-//console.log(operate('%', 5, 3));
+console.log(operate('+', 5, 3, 5, 7));
+console.log(operate('*', 5, 3));
+console.log(operate('%', 5, 3));
 
 
 
