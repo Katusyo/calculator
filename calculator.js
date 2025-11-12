@@ -97,30 +97,6 @@ deleteButton.addEventListener('click', () => {
     updateDisplays(num2);
 });
 
-function add(...numbers) {
-    return numbers.reduce((total, num2) => total + num2, 0);
-};
-
-console.log(add(1, 2, 3, 4, 5));
-
-function subtract(...numbers) {
-    return numbers.reduce((total, num2) => total - num2);
-};
-
-console.log(subtract(10, 3, 2, 1));
-
-function multiply(...numbers) {
-    return numbers.reduce((total, num2) => total * num2);
-};
-
-console.log(multiply(5, 2, 2, 3));
-
-function divide(...numbers) {
-    return numbers.reduce((total, num2) => total / num2);
-};
-
-console.log(divide(50, 2, 2, 3));
-
 function operate(operator, num1, num2) {
     switch (operator) {
         case '+': return num1 + num2;
@@ -128,7 +104,7 @@ function operate(operator, num1, num2) {
         case '*': return num1 * num2;
         case '/':
             if (num2 === 0) {
-                return "Error";
+                return "Error Loser";
             }
             return num1 / num2;
         default: return num2;
