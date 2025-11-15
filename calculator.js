@@ -1,10 +1,11 @@
-let num1 = '0';
-let num2 = '';
+let currentInput = '0';
+let previousInput = null;
 let operator = null;
 let shouldResetDisplay = false;
 let lastResult = null;
+let nextInput = false;
 
-const display = document.getElementById('main-display');
+const displays = document.getElementById('main-display');
 const equationDisplay = document.getElementById('equation-display');
 const numberButtons = document.querySelectorAll('.number');
 const operatorButtons = document.querySelectorAll('.operator');
@@ -15,87 +16,111 @@ const equalsButton = document.getElementById('equals');
 
 function updateDisplays(value) {
     mainDisplay.value = value;
-    let equationString = '';
-    if (lastResult !== null) {
-        equationString = `${lastResult} ${operator}`;
-    } else if (num1 !== '' && operator) {
-        equationString = `${num1} ${operator}`;
-    } else if (num1 !== '') {
-        equationString = num1;
-    }
-    equationDisplay.textContent = equationString;
+//    let equationString = '';
+//    if (lastResult !== null) {
+//        equationString = `${lastResult} ${operator}`;
+//    } else if (num1 !== '' && operator) {
+//        equationString = `${num1} ${operator}`;
+//    } else if (num1 !== '') {
+//        equationString = num1;
+//    }
+//    equationDisplay.textContent = equationString;
+}
+
+function updateEquationDisplay(text) {
+    equationDisplay.textContent = text;
 }
 
 numberButtons.forEach(button => {
     button.addEventListener('click', () => {
         const number = button.dataset.number;
-        if (shouldResetDisplay) {
-            num2 = number;
-            shouldResetDisplay = false;
+        if (nextInput) {
+            currentInput = number;
+            nextInput = false;
         } else {
-            if (num2 === '0' && number !== '.') {
-                num2 = number;
+            if (currentInput === '0') {
+//            } || (typeof currentInput === 'string' && currentInput.includes('Error'))) {
+                currentInput = number;
             } else {
-                num2 += number;
+                currentInput += number;
             }
         }
-        updateDisplays(num2);
+        updateDisplays(currentInput);
     });
 });
 
 operatorButtons.forEach(button => {
     button.addEventListener('click', () => {
-        if (num2 === '') return;
-        if (num1 !== '') {
-            num2 = operate(operator, parseFloat(num1), parseFloat(num2)).toString();
-            updateDisplays(num2);
+        if (operator !== null && currentInput !== '') {
+            operator = button.dataset.operator;
+            updateDisplays(currentInput);
+            updateEquationDisplay(`${previousInput} ${operator}`);
+            return;
         }
-
-        operator = button.dataset.operator;
-        num1 = num2;
-        shouldResetDisplay = true;
+        if (currentInput !== '' && previousInput === null) {
+            previousInput = currentInput;
+            operator = button.dataset.operator;
+            nextInput = true;
+            updateDisplays(currentInput);
+            updateEquationDisplay(`${previousInput} ${operator}`);
+        }
+//        if (num2 === '') return;
+//        if (num1 !== '') {
+//            num2 = operate(operator, parseFloat(num1), parseFloat(num2)).toString();
+//            updateDisplays(num2);
+//            updateEquationDisplay(`${num1} ${operator}`);
+//        }
+//
+//        operator = button.dataset.operator;
+//        num1 = num2;
+//        shouldResetDisplay = true;
     });
 });
 
 equalsButton.addEventListener('click', () => {
-    console.log("Equals button clicked!");
-    console.log("Previous Input:", num1);
-    console.log("Current Input:", num2);
-    console.log("Operator:", operator);
-    console.log("Should Reset Display:", shouldResetDisplay);
-
-    if (num1 === '' || operator === null || shouldResetDisplay) {
-        console.log("Condition failed, returning early.");
-        return;
+    if (previousInput === null || operator === null || nextInput) {
+        return roundNumber(result, 2);
     }
-
-    console.log("Condition passed, performing calculation.");
-    
-    const result = operate(operator, parseFloat(num1), parseFloat(num2));
+    const num1 = parseFloat(previousInput);
+    const num2 = parseFloat(currentInput);
+    const result = operate(operator, num1, num2);
     updateDisplays(result);
-    equationDisplay.textContent = '';
-    num2 = result.toString();
-    num1 = '';
+    currentInput = result.toString();
+    previousInput = null;
     operator = null;
-    shouldResetDisplay = true;
+    nextInput = false;
+//    const result = operate(operator, parseFloat(num1), parseFloat(num2));
+//    updateDisplays(result);
+//    updateEquationDisplay('');
+//    equationDisplay.textContent = '';
+//    num2 = result.toString();
+//    num1 = '';
+//    operator = null;
+//    shouldResetDisplay = true;
 });
 
 clearButton.addEventListener('click', () => {
-    num2 = '0';
-    num1 = '';
+    currentInput = '0';
+    previousInput = null;
     operator = null
-    shouldResetDisplay = false;
-    updateDisplays(num2);
+    nextInput = false;
+    updateDisplays(currentInput);
+    updateEquationDisplay(currentInput);
 });
 
 deleteButton.addEventListener('click', () => {
-    if (num2.length === 1) {
-        num2 = '0';
+    if (currentInput.length === 1) {
+        currentInput = '0';
     } else {
-        num2 = num2.slice(0, -1);
+        currentInput = currentInput.slice(0, -1);
     }
-    updateDisplays(num2);
+    updateDisplays(currentInput);
 });
+
+function roundNumber(num, decimalPlaces) {
+    const factor = Math.pow(10, decimalPlaces);
+    return Math.round(num * factor) / factor;
+}
 
 function operate(operator, num1, num2) {
     switch (operator) {
