@@ -85,10 +85,11 @@ equalsButton.addEventListener('click', () => {
     const num2 = parseFloat(currentInput);
     const result = operate(operator, num1, num2);
     updateDisplays(result);
+    updateEquationDisplay('');
     currentInput = result.toString();
     previousInput = null;
     operator = null;
-    nextInput = false;
+    nextInput = true;
 //    const result = operate(operator, parseFloat(num1), parseFloat(num2));
 //    updateDisplays(result);
 //    updateEquationDisplay('');
