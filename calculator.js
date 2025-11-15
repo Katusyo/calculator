@@ -34,11 +34,17 @@ function updateEquationDisplay(text) {
 numberButtons.forEach(button => {
     button.addEventListener('click', () => {
         const number = button.dataset.number;
+        if (number === '.') {
+            if (currentInput.includes('.')) {
+                return;
+            }
+        }
         if (nextInput) {
             currentInput = number;
             nextInput = false;
+            updateEquationDisplay('');
         } else {
-            if (currentInput === '0') {
+            if (currentInput === '0' && number !== '.') {
 //            } || (typeof currentInput === 'string' && currentInput.includes('Error'))) {
                 currentInput = number;
             } else {
