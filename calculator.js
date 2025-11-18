@@ -1,7 +1,6 @@
 let currentInput = '0';
 let previousInput = null;
 let operator = null;
-let shouldResetDisplay = false;
 let lastResult = null;
 let nextInput = false;
 
@@ -14,17 +13,40 @@ const deleteButton = document.getElementById('delete');
 const equalsButton = document.getElementById('equals');
 
 
+document.addEventListener('keydown', (event) => {
+    handlekeyPress(event.key);
+});
+
+function handlekeyPress(key) {
+    if (/[0-9.]/.test(key)) {
+        simulateNumberClick(key);
+        return;
+    }
+
+    if (/[\+\-\*\/]/.test(key)) {
+        simulateOperatorClick(key);
+        return;
+    }
+
+    if (key === '=' || key === 'Enter') {
+        event.preventDefault();
+        equalsButton.click();
+        return;
+    }
+
+    if (key === 'Escape' || key.toLowerCase() === 'c') {
+        clearButton.click();
+        return;
+    }
+
+    if (key === 'Backspace') {
+        deleteButton.click();
+        return;
+    }
+}
+
 function updateDisplays(value) {
-    mainDisplay.value = value;
-//    let equationString = '';
-//    if (lastResult !== null) {
-//        equationString = `${lastResult} ${operator}`;
-//    } else if (num1 !== '' && operator) {
-//        equationString = `${num1} ${operator}`;
-//    } else if (num1 !== '') {
-//        equationString = num1;
-//    }
-//    equationDisplay.textContent = equationString;
+    document.getElementById('mainDisplay').value = value;
 }
 
 function updateEquationDisplay(text) {
@@ -45,7 +67,6 @@ numberButtons.forEach(button => {
             updateEquationDisplay('');
         } else {
             if (currentInput === '0' && number !== '.') {
-//            } || (typeof currentInput === 'string' && currentInput.includes('Error'))) {
                 currentInput = number;
             } else {
                 currentInput += number;
@@ -70,16 +91,6 @@ operatorButtons.forEach(button => {
             updateDisplays(currentInput);
             updateEquationDisplay(`${previousInput} ${operator}`);
         }
-//        if (num2 === '') return;
-//        if (num1 !== '') {
-//            num2 = operate(operator, parseFloat(num1), parseFloat(num2)).toString();
-//            updateDisplays(num2);
-//            updateEquationDisplay(`${num1} ${operator}`);
-//        }
-//
-//        operator = button.dataset.operator;
-//        num1 = num2;
-//        shouldResetDisplay = true;
     });
 });
 
@@ -96,14 +107,6 @@ equalsButton.addEventListener('click', () => {
     previousInput = null;
     operator = null;
     nextInput = true;
-//    const result = operate(operator, parseFloat(num1), parseFloat(num2));
-//    updateDisplays(result);
-//    updateEquationDisplay('');
-//    equationDisplay.textContent = '';
-//    num2 = result.toString();
-//    num1 = '';
-//    operator = null;
-//    shouldResetDisplay = true;
 });
 
 clearButton.addEventListener('click', () => {
@@ -143,3 +146,16 @@ function operate(operator, num1, num2) {
     }
 }
 
+function simulateNumberClick(key) {
+    const button = document.querySelector(`.number[data-number="${key}"]`);
+    if (button) {
+        button.click();
+    }
+}
+
+function simulateOperatorClick(key) {
+    const button = document.querySelector(`.operator[data-operator="${key}"]`);
+    if (button) {
+        button.click();
+    }
+}

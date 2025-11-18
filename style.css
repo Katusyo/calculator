@@ -22,8 +22,8 @@ body {
 
 .mainDisplay {
     width: 100%;
-    height: 50px;
-    font-size: 2em;
+    height: 60px;
+    font-size: 3em;
     text-align: right;
     padding: 5px;
     border: none;
@@ -36,8 +36,8 @@ body {
 
 .equation-display {
     width: 100%;
-    height: 50px;
-    font-size: 2em;
+    height: 60px;
+    font-size: 3em;
     text-align: right;
     padding: 5px;
     border: none;
@@ -105,36 +105,3 @@ button.delete span {
 button.equals span {
     color:rgb(72, 114, 240)
 }
-
-/*.buttons-top {
-    cursor: pointer;
-    border-radius: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.buttons1 {
-    cursor: pointer;
-    border-radius: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.buttons2 {
-    cursor: pointer;
-    border-radius: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.buttons3 {
-    cursor: pointer;
-    border-radius: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-    */
