@@ -55,10 +55,10 @@ body {
 .buttons {
     background-color: #292D36;
     padding: 1.5rem;
-    border-radius: 1.5rem 1.5rem 1.5rem 1.5rem;
+    border-radius: 1.5rem 1.5rem 0rem 0rem;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(5, 1f4);
+    grid-template-columns: repeat(4, 4fr);
+    grid-template-rows: repeat(4, 1f4);
     grid-gap: 1rem;
     box-shadow: 0px - 2px 16px rgba(0, 0 , 0, 0.2);
 }
@@ -73,6 +73,28 @@ button {
     border-radius: 1rem;
     transition: 0.2s;
     user-select: none;
+}
+
+.clear, .delete {
+    width: 160px;
+    padding: 10px 20px;
+    cursor: pointer;
+    padding: 1.5rem;
+    border-radius: 1.5rem 1.5rem 1.5rem 1.5rem;
+    box-shadow: 0px - 2px 16px rgba(0, 0 , 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.clean {
+    background-color: #292D36;
+    padding-bottom: 1.5rem;
+    border-radius: 0rem 0rem 1.5rem 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px
 }
 
 button span {
@@ -95,7 +117,7 @@ button.operator span {
 }
 
 button.clear span {
-    color: #26FED7
+    color: #26FED7;
 }
 
 button.delete span {
