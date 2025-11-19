@@ -109,6 +109,7 @@ button span {
 }
 
 button:hover {
+    background-color: #4e4e4e;
     box-shadow: inset 0px 0px 8px rgba(0, 0, 0, 0.2);
 }
 
