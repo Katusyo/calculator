@@ -108,9 +108,34 @@ button span {
     color: #FFF;
 }
 
-button:hover {
+.number:hover,
+.number.active-keyboard {
     background-color: #4e4e4e;
     box-shadow: inset 0px 0px 8px rgba(0, 0, 0, 0.2);
+}
+
+.operator:hover,
+.operator.active-keyboard {
+    background-color: rgb(72, 114, 240);
+    color: white;
+}
+
+.clear:hover,
+.clear.active-keyboard {
+    background-color: white;
+    color: white;
+}
+
+.delete:hover,
+.delete.active-keyboard {
+    background-color: white;
+    color: white;
+}
+
+.equals:hover,
+.equals.active-keyboard {
+    background-color: #EB6666;
+    color: white;
 }
 
 button.operator span {
