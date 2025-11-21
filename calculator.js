@@ -45,6 +45,44 @@ function handlekeyPress(key) {
     }
 }
 
+function getButtonElement(key) {
+    if (/[0-9.]/.test(key)) {
+        return document.querySelector(`.number[data-number="${key}"]`);
+    }
+
+    if (/[\+\-\*\/]/.test(key)) {
+        return document.querySelector(`.operator[data-operator="${key}"]`);
+    }
+
+    if (key === '=' || key === 'Enter') {
+        return document.getElementById('eqals');
+    }
+
+    if (key === 'Escape' || key.toLowerCase() === 'c') {
+        return document.getElementById('clear');
+    }
+
+    if (key === 'Backspace') {
+        return document.getElementById('delete');
+    }
+    return null;
+}
+
+document.addEventListener('keydown', (event) => {
+    const button = getButtonElement(event.key);
+    if (button) {
+        button.classList.add('active-keyboard');
+        handlekeyPress(event.key);
+    }
+});
+
+document.addEventListener('keyup', (event) => {
+    const button = getButtonElement(event.key);
+    if (button) {
+        button.classList.remove('active-keyboard');
+    }
+});
+
 function updateDisplays(value) {
     document.getElementById('mainDisplay').value = value;
 }
